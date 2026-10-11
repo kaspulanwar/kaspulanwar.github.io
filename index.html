@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kaspul Anuar — Aerial robotics researcher</title>
+<meta name="description" content="Kaspul Anuar: mechanical engineer and researcher designing fixed-wing, VTOL and flapping-wing unmanned aircraft. PhD student at Tokyo Metropolitan University, lecturer at Universitas Riau.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..800;1,62..125,300..600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF1F4; --surface:#FFFFFF; --ink:#13213A; --muted:#56637A; --line:#CDD5DF;
+  --blue:#1D5FA8; --flow:#2F6FB3; --accent:#F2B705; --accent-soft:#FCEFC2; --wing:#13213A;
+  --font:"Archivo", "Helvetica Neue", Arial, system-ui, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1626; --surface:#142036; --ink:#E4EAF2; --muted:#9AA8BD; --line:#263552;
+    --blue:#82B5EE; --flow:#5E9BDB; --accent:#F2B705; --accent-soft:#3A3416; --wing:#E4EAF2;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1626; --surface:#142036; --ink:#E4EAF2; --muted:#9AA8BD; --line:#263552;
+  --blue:#82B5EE; --flow:#5E9BDB; --accent:#F2B705; --accent-soft:#3A3416; --wing:#E4EAF2;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth; scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font); font-size:1.0625rem; line-height:1.6; font-variation-settings:"wdth" 100; -webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:var(--blue); text-underline-offset:.18em; text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:3px solid var(--accent); outline-offset:3px; border-radius:2px}
+.wrap{width:min(1120px, 100% - 2.5rem); margin-inline:auto}
+.narrow{max-width:68ch}
+
+/* nav */
+.nav{position:sticky; top:env(safe-area-inset-top,0px); z-index:10; background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex; align-items:center; gap:1.5rem; height:60px}
+.brand{font-weight:750; font-variation-settings:"wdth" 120; text-decoration:none; color:var(--ink); font-size:1.05rem; display:flex; align-items:center; gap:.55rem}
+.brand svg{width:26px; height:26px}
+.menu{display:flex; gap:1.4rem; margin-left:auto; list-style:none; padding:0; margin-block:0}
+.menu a{color:var(--muted); text-decoration:none; font-size:.95rem; font-weight:500}
+.menu a:hover,.menu a.on{color:var(--ink)}
+.theme{background:none; border:1px solid var(--line); color:var(--ink); width:38px; height:38px; border-radius:50%; display:grid; place-items:center; cursor:pointer; flex:none}
+.theme svg{width:18px; height:18px}
+.theme .moon{display:none}
+:root[data-theme="dark"] .theme .sun{display:none}
+:root[data-theme="dark"] .theme .moon{display:block}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .theme .sun{display:none}
+  :root:not([data-theme="light"]) .theme .moon{display:block}
+}
+@media (max-width:760px){ .menu{display:none} .theme{margin-left:auto} }
+
+/* hero */
+.hero{padding:clamp(2.5rem,7vw,5.5rem) 0 0}
+.hero h1{margin:0; font-weight:800; font-variation-settings:"wdth" 125; font-size:clamp(2.9rem, 9.5vw, 7.4rem); line-height:.92; letter-spacing:-.025em}
+.hero h1 span{display:block}
+.hero h1 .last{color:transparent; -webkit-text-stroke:2px var(--ink)}
+.hero .lede{margin:1.6rem 0 0; font-size:clamp(1.12rem, 2.1vw, 1.38rem); line-height:1.5; max-width:40ch; color:var(--ink)}
+.roles{margin:1.4rem 0 0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:.5rem 1.6rem; color:var(--muted); font-size:.98rem}
+.roles li{display:flex; align-items:center; gap:.5rem}
+.roles li::before{content:""; width:9px; height:9px; background:var(--accent); border-radius:50%}
+
+/* flow lab */
+.flow{margin-top:clamp(2rem,5vw,3.5rem); border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--surface)}
+.flow-stage{position:relative; overflow:hidden}
+.flow-stage svg{display:block; width:100%; height:clamp(240px, 35vw, 440px)}
+.stream{fill:none; stroke:var(--flow); stroke-width:1.4; stroke-linecap:round; opacity:.75}
+.stream.anim{stroke-dasharray:14 16; animation:run 1.6s linear infinite}
+@keyframes run{to{stroke-dashoffset:-30}}
+@media (prefers-reduced-motion: reduce){ .stream.anim{animation:none; stroke-dasharray:none} }
+.wing{fill:var(--wing)}
+.chordline{stroke:var(--accent); stroke-width:2; stroke-dasharray:4 5}
+.flow-ui{display:flex; flex-wrap:wrap; align-items:center; gap:1rem 2.2rem; padding:1rem 0 1.2rem}
+.flow-ui label{font-weight:600; font-size:.95rem; display:flex; align-items:center; gap:.9rem; flex:1 1 300px}
+.flow-ui input[type=range]{flex:1; accent-color:var(--accent); min-width:120px}
+.readout{display:flex; gap:2rem; font-variant-numeric:tabular-nums}
+.readout div{display:flex; flex-direction:column; line-height:1.2}
+.readout b{font-size:1.5rem; font-weight:700; font-variation-settings:"wdth" 110}
+.readout small{color:var(--muted); font-size:.82rem}
+.flow-note{color:var(--muted); font-size:.88rem; margin:0; flex-basis:100%}
+
+/* sections */
+section.block{padding:clamp(3.5rem,8vw,6rem) 0}
+section.block + section.block{border-top:1px solid var(--line)}
+h2{font-weight:750; font-variation-settings:"wdth" 118; font-size:clamp(1.9rem,4vw,2.7rem); line-height:1.05; letter-spacing:-.015em; margin:0 0 1.8rem}
+h3{font-weight:700; font-size:1.2rem; margin:0; line-height:1.3}
+.sub{color:var(--muted); margin:-1rem 0 2rem; max-width:62ch}
+
+/* about */
+.about{display:grid; grid-template-columns:minmax(0,1fr) 260px; gap:clamp(2rem,6vw,5rem); align-items:start}
+.about p{margin:0 0 1.1rem; max-width:62ch}
+.portrait{margin:0}
+.portrait img{width:100%; aspect-ratio:4/5; object-fit:cover; object-position:center 20%; display:block; border-radius:4px 4px 120px 4px; filter:saturate(.9)}
+.portrait figcaption{font-size:.88rem; color:var(--muted); margin-top:.7rem}
+@media (max-width:760px){ .about{grid-template-columns:1fr} .portrait{max-width:220px; order:-1} }
+
+/* research themes */
+.themes{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:0 3rem}
+.theme-item{display:grid; grid-template-columns:64px 1fr; gap:1.1rem; padding:1.6rem 0; border-top:1px solid var(--line)}
+.theme-item svg{width:64px; height:44px; color:var(--ink)}
+.theme-item svg .hl{stroke:var(--accent)}
+.theme-item p{margin:.35rem 0 .5rem; color:var(--muted); font-size:.98rem}
+.theme-item button{all:unset; cursor:pointer; color:var(--blue); font-size:.92rem; font-weight:600; text-decoration:underline; text-underline-offset:.18em; text-decoration-thickness:1px}
+.theme-item button:focus-visible{outline:3px solid var(--accent); outline-offset:3px}
+
+/* publications */
+.filters{display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:.8rem}
+.chip{font:inherit; font-size:.92rem; font-weight:500; border:1px solid var(--line); background:var(--surface); color:var(--ink); padding:.4rem .95rem; border-radius:999px; cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.chip .n{opacity:.6; margin-left:.35rem; font-variant-numeric:tabular-nums}
+.pubmeta{display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem; color:var(--muted); font-size:.92rem; margin:1.2rem 0 .5rem}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:6px; overflow:hidden}
+.seg button{font:inherit; font-size:.88rem; border:0; background:transparent; color:var(--muted); padding:.3rem .8rem; cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft); color:var(--ink); font-weight:600}
+.year-group{display:grid; grid-template-columns:90px 1fr; gap:1.5rem; border-top:1px solid var(--line); padding:1.4rem 0}
+.year{font-weight:800; font-variation-settings:"wdth" 125; font-size:1.6rem; line-height:1; color:var(--ink)}
+.pub{padding-bottom:1.3rem; max-width:76ch}
+.pub:last-child{padding-bottom:0}
+.pub h3{font-size:1.08rem; font-weight:650}
+.pub h3 a{color:var(--ink); text-decoration:none}
+.pub h3 a:hover{color:var(--blue); text-decoration:underline}
+.pub .au{margin:.25rem 0 0; font-size:.95rem; color:var(--muted)}
+.pub .au strong{color:var(--ink); font-weight:650}
+.pub .ve{margin:.15rem 0 0; font-size:.95rem; font-style:italic; color:var(--muted)}
+.pub .gloss{margin:.2rem 0 0; font-size:.9rem; color:var(--muted)}
+.kind{display:inline-block; font-size:.76rem; font-weight:600; padding:.08rem .5rem; border-radius:3px; margin-right:.5rem; vertical-align:2px; font-style:normal}
+.kind.j{background:var(--accent-soft); color:var(--ink)}
+.kind.c{border:1px solid var(--line); color:var(--muted)}
+.scholar-cta{margin-top:2rem; display:flex; flex-wrap:wrap; gap:1rem; align-items:center; padding:1.3rem 1.5rem; border-left:4px solid var(--accent); background:var(--surface)}
+.scholar-cta p{margin:0; flex:1 1 280px; color:var(--muted); font-size:.98rem}
+.btn{display:inline-flex; align-items:center; gap:.5rem; font-weight:650; text-decoration:none; padding:.65rem 1.15rem; border-radius:6px; background:var(--ink); color:var(--bg); font-size:.95rem}
+.btn:hover{background:var(--blue); color:#fff}
+@media (max-width:600px){ .year-group{grid-template-columns:1fr; gap:.8rem} }
+
+/* teaching */
+.two{display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,6vw,5rem)}
+@media (max-width:760px){ .two{grid-template-columns:1fr} }
+.plain{list-style:none; padding:0; margin:0}
+.plain li{padding:.75rem 0; border-top:1px solid var(--line)}
+.plain li:last-child{border-bottom:1px solid var(--line)}
+.plain small{display:block; color:var(--muted); font-size:.9rem}
+
+/* timeline */
+.timeline{list-style:none; margin:0; padding:0; position:relative}
+.timeline::before{content:""; position:absolute; left:7px; top:.6rem; bottom:.6rem; width:2px; background:var(--line)}
+.timeline li{position:relative; padding:0 0 2.2rem 2.6rem}
+.timeline li:last-child{padding-bottom:0}
+.timeline li::before{content:""; position:absolute; left:0; top:.4rem; width:16px; height:16px; border-radius:50%; background:var(--bg); border:3px solid var(--ink)}
+.timeline li.now::before{background:var(--accent); border-color:var(--accent)}
+.when{font-size:.9rem; color:var(--muted); font-variant-numeric:tabular-nums}
+.timeline h3{margin-top:.15rem}
+.timeline .org{margin:.1rem 0 .4rem; font-weight:500}
+.timeline p{margin:.3rem 0 0; color:var(--muted); font-size:.97rem; max-width:62ch}
+
+/* skills */
+.skills{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.8rem 2.5rem}
+.skills h3{font-size:1rem; margin-bottom:.5rem}
+.skills p{margin:0; color:var(--muted)}
+.cefr{display:grid; grid-template-columns:repeat(4,1fr); gap:.6rem; margin-top:.8rem}
+@media (max-width:480px){.cefr{grid-template-columns:repeat(2,1fr)}}
+.cefr div{border:1px solid var(--line); background:var(--surface); padding:.6rem .8rem; border-radius:6px}
+.cefr b{display:block; font-size:1.25rem; font-variation-settings:"wdth" 115}
+.cefr span{font-size:.85rem; color:var(--muted)}
+
+/* contact */
+.contact h2{font-size:clamp(2.2rem,6vw,4.2rem); font-variation-settings:"wdth" 125; line-height:1}
+.mail{font-size:clamp(1.15rem,3vw,1.7rem); font-weight:600; word-break:break-all}
+.profiles{display:flex; flex-wrap:wrap; gap:.6rem; margin-top:2rem; padding:0; list-style:none}
+.profiles a{display:inline-block; text-decoration:none; color:var(--ink); border:1px solid var(--line); background:var(--surface); padding:.55rem 1rem; border-radius:6px; font-weight:550; font-size:.95rem}
+.profiles a:hover{border-color:var(--ink)}
+.profiles small{color:var(--muted); font-weight:400; margin-left:.35rem}
+footer{border-top:1px solid var(--line); padding:1.6rem 0 2.4rem; color:var(--muted); font-size:.88rem}
+footer .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Kaspul Anuar, back to top">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 18 C 9 10, 20 9, 29 15 C 20 15.5, 10 17, 3 18 Z" fill="currentColor"/><path d="M3 22 H 29" stroke="#F2B705" stroke-width="2.2" stroke-linecap="round"/></svg>
+      Kaspul Anuar
+    </a>
+    <ul class="menu">
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#teaching">Teaching</a></li>
+      <li><a href="#cv">CV</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="theme" id="themeBtn" type="button" aria-label="Switch between light and dark mode">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <h1><span>Kaspul</span><span class="last">Anuar</span></h1>
+    <p class="lede">I design, simulate and fly small unmanned aircraft: fixed-wing mappers, tricopter and tail-sitter VTOLs, and flapping-wing robots.</p>
+    <ul class="roles">
+      <li>Doctoral student, Tokyo Metropolitan University</li>
+      <li>Lecturer, Mechanical Engineering, Universitas Riau</li>
+    </ul>
+  </div>
+
+  <div class="flow" aria-label="Interactive airflow demonstration">
+    <div class="flow-stage">
+      <svg id="flowSvg" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="flowTitle">
+        <title id="flowTitle">Streamlines of air flowing past a cambered wing section</title>
+        <g id="streams"></g>
+        <g id="foil"></g>
+      </svg>
+    </div>
+    <div class="wrap flow-ui">
+      <label for="aoa">Angle of attack
+        <input type="range" id="aoa" min="-4" max="12" step="0.5" value="5">
+      </label>
+      <div class="readout" aria-live="polite">
+        <div><b id="aoaOut">5.0°</b><small>angle of attack</small></div>
+        <div><b id="clOut">–</b><small>lift coefficient</small></div>
+      </div>
+      <p class="flow-note">Ideal (inviscid) flow past a cambered Joukowski wing section, computed live in your browser. Real wings stall somewhere past 12°; this model doesn’t know that.</p>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="block" id="about">
+  <div class="wrap about">
+    <div>
+      <h2>About</h2>
+      <p>I’m a mechanical engineer who builds aircraft that fly without a pilot on board. From 2016 to 2024 I taught and did research at the Department of Mechanical Engineering, Universitas Riau, in Pekanbaru, where my group designed, built and flew the Serindit V-1 and V-2 UAVs and the Atha Mapper 2150.</p>
+      <p>My work sits where aerodynamics meets hardware. CFD and experimental propeller tests feed straight into airframes we then build and fly, along with the parts around them: high-lift devices, bungee-cord launchers, landing parachutes and frames that let a fixed-wing take off vertically. I also care about local, low-cost materials, including fuselages made from oil palm empty fruit bunch fiber.</p>
+      <p>Since April 2024 I’ve been a doctoral student in the Department of Mechanical Systems Engineering at Tokyo Metropolitan University, Japan, working on bio-inspired flapping-wing aerial robots.</p>
+    </div>
+    <figure class="portrait">
+      <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwMDAgQDAwMEBAQFBgoGBgUFBgwICQcKDgwPDg4MDQ0PERYTDxAVEQ0NExoTFRcYGRkZDxIbHRsYHRYYGRj/2wBDAQQEBAYFBgsGBgsYEA0QGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBj/wAARCAD6APoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDneKOPSl4pOPev6aPwcOPSjj0o496OPegA49KOPSjj3o4oAOPSjj0o4o496ADj0o49KOPejj3oAKMijiqt7qFnp9s091MkagZ+Y4qZzjCLlJ2SKjCU3yxV2Ws0hZV+8wH1rzTXPipa27NDpyAt0DODz78CvPNY8b6xqEjCW7ljRv4F4zXyWYcZ4LDXjT99+Wx9HguF8VX1qe6j3yfxDo1txNqECn/eqi/jXw7G2DqMefTmvnI31xK5driZiO2Tz9aiVZMfI7Ek4+9jH596+Zq8f4hv93TSPep8G0V8dRn0pH4x8PyNhdRhzjOCcVqW2o2l3GJLedJEboynINfLbCSKVN8pbkfdbP6g1qWOv6hpkoktLiWJh33k/gRWuG4+qcy9vTVvIzr8HQ5f3U9fM+m8gjijPtXlnh74nf6Qlnq4Uk4HmrwPx/8ArV6JYaxp+pRCSzuY5QeyNkj6jtX3WXZ3hMfG9GevbqfJY3KsTg3arHTv0L/HpRx6UcUfSvWPNDj0o49KOKOPegA49KOPSjj3o496ADj0o49KOKOPegA49KOPSjj3o496AF49KMD1o4ooAOKOKXb+7DZ6kim8etAC8UcUnHrRx60ALxRgUnHrRx60ALxRxScetHHrQAvFNd0RCzMAPUnFDMqIWY4A5Jrxf4kePHuZ5NF05iIkO2R88k56V5Gc5vSyug6tTV9F3Z6WV5ZUzCsqcNur7G74i+Kcek3ctta26zOh25DDBNed6p431fXU3Xcv7tgRgfKAD2yAPyzXIyNPPLGCS3ORu6n65+lWBF5LNhee/SvxvMeIcbj7qpP3eyP07A5LhcIk4R97uK5Uyfu3bnqAcg/Wm73VsBiQfTGDSGJWYbYlU9zxyfy4qZYDzHhsDncqZI9a8Q9YiMozsYDj14qVvMyuQwDD5SwO38PzpY0kSU/uElA5yQcAUgeaPfDvwr4yE7+3vTAEch/LYZAORgHH1rRFubpFeC5UP2VjyOPcYxz61UT94fKdT/dDCPJyBx9PwP4VaEs9sAZo42Ltw8nI7clh6+/THbrTQmSGGRICty2S2NrbNwycYA44OMY9qm0+9v8ATL7Pn3CtjjZk46YBPHYEj2x25E4D3dkFRUX5flV1HOBksD3/AJ8gcmqaWZdmjmlZdrHZIoPGB0I/HHscjuDWsJypyUoOzM5RjNcskeseGviBCVS11KVHyPllQ/54969BgnhuYRLDIroehU5r5iC/ZroJKWUsRsdSMZ9Dx9f/AK/frfDfjLVNA1CGO9l32kuCR2AzjOBntz61+gZFxnKDVHG6rv29T43N+F4zvVwuj7f5HunFHHeq1hfW2o2SXVrMkkbDIZTkVZxzX6bCcZxUou6Z8FKLi3GSs0LxRxScetLx61RIcUnFHHrRx60ALxRxScetHHrQAvFJxRx60v4UAPP/AB7IP9pv5Co8e4p2coF44JNNx7ihAGPcUY9xRj3FGPcUAGPcUY9xRj3FGPcUAGPcUYox7ig8CgDkPH/iV/D/AIef7OwSeUEKx6j3Hv0+lfOtwzTymVslnJwTzXonxZvY5/En2ZHZgigOGbOTjj8P8TXAxwlpCx5G3GSOgr8Q4tzGeLx8oX92Gi/U/V+G8FHDYSMray1YxIFMS7OW4znv/nit220KWcQyZAjkby93ZWIzj+davhLwp/bN75TuQoGWyCeOhxjv7V6/Z/DuXSTbq1v9thO07YjtYc5yRn5sZJ7cgd+B8dWrqGh9Xh8K6mvQ8M1Tw5qOmThJU+Q5HmAZGcZwT64/zxWYtnMtwYTlGHQtlc19Bv4amuZpD/o15FGeI3ULIQfWPK4465wTk5x0OJf/AA4+2KN2kXlrI0hLSQRgwqvbgnj14HHTnrWcMT3Np4Jr4Tx9lMsIFyjnaCEaA7SPqOhocKY9iNNcw5XeZEAde3B5I9OODxxXpb/DfVYT/wASt711c42rbyqpwOmcYz09Rx1qKbwLrdlu+3adOxCjDGAkZxwOn6giuunWjLqck8POPQ8+tok+2pvdmwBuP3jgdDgnBxgcZ7Vf+yqcfIsyHAk2EhjkdMHofX1/WtabQEin2CN41zkRsct/vDpn3Ht3AxVuPSmMq/aIljuIlI3hhtkXnKsPc56+o77c9UYnI3YxrGxks8xEBz97aSVyuM45A9cZ/wD1lkkKiMSRyA+U3ysPvZ7K3vwR39eK1mt4bdUkZvNCOVYqMMncBv8Avr73PGOeVyxIWuJXt1jjj4D72AXzAM7T35wPoPzp26CuZ19p9rf2kUtu5wDjDdSf8fX8/XGVIfNtzEh3yIM5Xo/ocdjzjjjj169HvggtWhcbJhuYq6hskdeeOBk5HUfXAFJbAzW8dy8ObtWyqAK3mIR93GOoA/Ucc0nHsNM6H4deLf7P1M6PeEiOUhUUggo3OQc/0/KvZlIKgg1803sCiYSQHZKrCRWLD5wewJJ5HPfnn6n3PwTqn9q+FIJHl3zINkm45OR/n/Jr9M4IzaVSLwVR3tqvTsfBcV5bGDWLgt9H/mdGevWjHvRj3ox71+hnxQY9xRj3FGPcUY9xQAY9xRj3FGPcUY9xQAuPej8aMe9HfrQAdqTBoooAMGjBo5ooAMGjBoooAMGmyA+W30p1MmO2B2LBcAnJ4AqZOybHFXaR82eMZBP40vWBLbZCOeg/CqdtC0s4i43EF/lxx3GfyH0qzqBe71GaYLIS0rOz53BueP5frXQeENPW4vZS8BEsgOxz0U9COT1IY847Z7V/OeJn7StOfdt/ifuGHhyU4x7JHq3wj0eHyzLNEysRt+6MEH6jnOf5e9e5JpkRhjhEsgRecnqPSuC8A6fFZ6XGETAOXbn+InGRkZ7GvTbVd4O3n0r5zEv32fS4aNoIyZvD9tO6mQ7mXIDMvPXrx9TWnZeH7SEB/s9vkDHyxheP61ciiw+3AJNb2nWgZg2Cwx0x0rKCcjeTsjOXTYpEQmGNkP3kCjFXotAs/LASExgfwxsVH6VsizwRjCjPI9KuJAvK8niuhU7HNKdzzvxD8L/DXiBcXlkiSvx5sShHHocjvXgfjz4LeKPDsM17pobV9NTLnYP3sang5QdePT8RzkfYLRKMZwePWqk1sjRMmOD2xwa2pVp0vhZhUpQq/Ej88bpkitopixmw2yYqQWHJAViehwWw3I5qvNBcS6Ml1pqu6QgtujUsqZ6j1HHHbHTvz9Y/E34G+H/Fqvq+lqulayBxNCuEnx2kUYz/ALwwRxycYr5J13SfF3w08YPHq1u6x79yt1inGRyOx4xx16ZFd0cUp+TOCeFcNd0YUl7LcMVRmLuBjHXA7Hj8j1+nOc+21G4hj2o8beXwyOgcFevp2zXQeIdPtXtLfXrD9zYXw8yWOPJW3lHBK4/hycEfw59CpPPTWk4uVtplSO7xlCuMSgjjGODn1/Hntaq8xjKk4lx762u5JJJYoRJMCWXe7ls45JOTncGPUfM3pxXpHwfvWzeWL4GAHUE5J5wSPbINeS3VjPbiKaRDGsuQpBH3geeh45I/MYrtvhJciLxpIr5RXRlAU9+uPfpX0PDGIdLM6L7u33niZ9RVTA1F2V/uPe8GjBo5or92PyIMGjBoooAMGjBoooAXBpe9N5pcDPWgYnOaOfejtRQIOaOfejvRQAc+9HNFFABz71meIZGi8LahIqsxW3ckL1xg5rTqnqsL3GhXsMS7pJLd0VeuSVIFc2Mi54epGO7T/I3wslGtBva6/M8Rh091uFtJhjKCWEBgyglhu6cdFYY7EY7V6r4E8Hvc3NuY0WUxBGm3r8i5XjJ7nGR7ZHrXnVrsg8jecNGoV0fs275wOwOSfpge9fSfw6sI7DwdZ/uyrzJ5sm7lsnsT7DA/Cv5txc/Zx03Z+8YKmpy12R0WiaRHp9t5ZO9yBub1OMf0rdtISoILYHWq0BCHe+OnGasPdwQRNNPKiRjuxrxbOTue3zJF1IV3/Kwx71vafgQhDnOfw/GuestQsLtMwzRuO208mujsYjsXggEde+KuCa6ESkmjYtmTywQBVkGPvwPyxVGOCXdnBIHSp0Rhzjj0HSuhSfY55RRLJhh8oAqtIyh9uFb3JqYht2RjioJIpGPI5PehgkZd+sZiKHA/H+tee+JdB0vXLb7JqthDdwZ+7IucHsR6fhXod9bMyHIxXK3luyNuc/LXLUvc6qdkjyGX4Q+GLW+uLi2tisFyuJrYt8jcEZ/Jjz15PXNeReLPhle6SxsYrstZgNLpdwwJlhZFLGIuOcYBI/3T6c/T91LhXRgCRx9RXPaja217amGdFZG4IIBx6HBGPSnTrSi73FUoQnG1j491BLu48PN9rj23VvIECCJQcKpDnI+g577Sc5BzufCBA3jGYOSFMLsASeXBAyPcBm/Amuv+JXg4209w9jGogmVm+VcHd1x9O/foM9Kw/hhbpb+LwuGQyWrbUAB2sCu4k9s7Tx6EV9rw01Vx9CX95HxufwdLCVo+TPZOcUc+9HNFfvx+Mhz70c+9FFABz70c+9FFABzTuKbk0ueKLDQv8BPuKbk08E+UT7j+tNyaBCZoyaXJozQAmTRk0uaM0AJk0vzYzg49aBknAHJr0Sz0qMG60m+sljtIWEEVzuyXO0EkrjjluvP4V8rxPxRDI1SvDnlNvS9tFa72ffQ+m4c4bnnUqlp8qglra+r26rsfL2tQ/YfHl9bRsIzMxddwGArgdD2yS3T0r6b8OKq6FbYz8sagA9eleO/E/wAD3Wh6xZ6q0vnwRzeUsoUncp5UE88gjHPXIzXtGkReTp9vHz8qAA+uBX4hnGIpYitKrR+FtteV9bfLY/Wsrw9XDU1SrfEkl620v89yh4l1290iwYWGm3F7cvwkUY5J6Z79/wD6/FeM65f/ABP1LUTdXugak9tGMrBbjzFzz3T734dPfFfSsLxRgvIoG3njisXXfFtpYkItpDK6jHmTuI40Huxz6dga82nVUHojvqUnPdnguneO/E2jsuUvLSMOFVZIWUcE8+We/OM9etd54d/aE1a03QapZfanRcvcqhTCdMkdvXPHORVzXPif4Je2a08Q6tpvlS8qp02W6U9zhgQO/b1HrXNWsfgHWZnvvDzaVqhjYBlEUtsxA5Aw+euOB09e+Ox1Xa7gccaXvWUz2zw/8bbDUNODTWKxXYkWNogdwy2QDkduD1A6Y68V6to+s6Xqtgk6ptBUEbxg4xXzRoen+HbmNoUgntZi+5kc8g7s4+nX16/SvatDbyrNI4shQBjFcrxCudaotLU71vsS/vAM/TpWTqWu6Tpyu90+2NBluhK/rn9KoSXZS3+ZjkDqa8h+IdodYW4VL5bWWRAnmNnoCemOn3iPx79CnXSdhKm7aHf3vxI8Ci2dzrluoXqc5x7AdWz9O/tXmOv/ABl8KkyQ2U/mEDl+AAB+NeM3vgPWXuJpbPV4ri3iYmW5jhcrFk5+bAIX8cCrmmfCTwzrMTyXXjISO/MosEVnUdOgBx1APHcV1JUmrv8AI53KsnbYuXHxa8nWGZgGtif9Xg5PTp78+tdhaeJNP1jS0u7GYMjgEe1crD8DPBY3R6f4jvpmxmTzHDnP+0vHBBPbPvVrT/hpL4cv5JNP1KSWzZRmJweD3I5J/D3rlq+yn8OjOmj7aD953Rn/ABFZJfBsszMylcsCvqQRj9a4z4aWTXWt6tqsykiKRY43f5iSVJb5j3xs5HBrrviIDD4KuA7ED5dxHX7wqt8ONP2+DIZYYWEk+ZpXOQrMfQH2A9q+r4OqYejio1cVUUIR1179F+vyPm+KqWIrUJUsNBylLTTt1/yOoyaMml5HB60Zr9+TUldbH4s007MTJoyaXNGaYhMmjJpc0ZoATJpaM0Y96TGhwP7lvqP60zPtTs/IR703j0piDNGfYUcelHHpQAZ9hRn2FHHpRx6UAKrFWDDqDmvaneGa6hWGSJ2muBMpX+JGjDBvoefyrxXj0r0nwtdm6sNGlkbeY3a0kc8kBQSBj/ddR+FfmPibgnPDUcUvstxf/b2v6fifo/h1jFDEVsM/tRuv+3f+H/A5z4qw2l34fWzgIaP7VCxiPYltvHtllP4HtXWaVEDFEoGABwB7VzlxFbah4c1Ga5CNLb30EaoxAIJlBH5AE11+joGiTjoK/HU37NH6hVio1Wie40y5nTFthc9eK4668L6anju0n17TINWgJ5ju2JjjOeoQnYT1HzZHPrg16zaQgRYK4NZ+qaKl0S2DnOQRRD3WpIXMmnF7HjX7Qfgq/wBX1jS/F/g/R4NU05NOawkiht/PFsSsi5MQ+7gSZVsfKyg9hV74LfD6PTNA8Va/47tLPR7LWHAttPnQWkYIZm3JGxyoXIC89z25PoL6LNHYm2ViqBWUblDEbuTgnpzk/Wo0026lud8kVuAMrgQqAR0HAA9BXorEOSPP+pJdTB0TwzZ30OoR6bfreix+eO5jGQYzkqGP97A6YGPYtiu08Ju7lIpJSB04qtuubK1e1tFEfmqVchQOvU/X3qTR43tbwBSMADrXm1eXmVj0o3cdToPE/k21jmKVifavHJLOTXNVunupZPslsu5owTmRidqpkdMsRyfp3r1PxI8kmlM4bOOce1cLZwwTQTWlzBHPbTEM8Uo4JB4zg/1pKzqXY4rlgYPxa8A3mlfs7XWoW0AlvzdqLsrHiO1hIPyRKR8gLFFLDkgnPBwPCPAnhXS/EXxi8P6ZoelanLaXFywvIryaNj5XmNkgxgYxEASf7wJHBFfV1qbnTbR4bVJpIJVMTW8s7yxOu0LhkYlSMdiOg71lW+nTeHVmufD1taaQ8qYnNvaRCRh2AZVDAdPl7eteqq0Yx1PLlhZzk2meZ654WvvAvxGhs9J1ufWLUsTHBdvuniA4Pz989dvTjj0rsoLo3ke0o0fAyoq3pnhiaXXP7SvmMs+Tljk5J5710Vzp0UalxHtOOory60+d8yR6dOEacVC9zxLx1pyXcEVjKSsdxdQQuf8AZaVVPX2JrtLrSkg0CTTrOE2iQRI25SQ+N4H6jjj17VieMrcPqdnGybx9tt2K4yCBKp9OldhdET31kwmMa3kStIfQJMGOfUYjNNtuKii8Okpyk9ji9SiEGs3cIBwkzqM/U1Vz7CrOo3QvdWurtV2rLKzhT1AJyB+VVuPSv6ky6E4YSlCp8SjG/rZXP5vx84TxVWVP4XJ29LuwZ9hRn2FHHpRx6V2HIGfYUZ9hRx6UcelAC59qBnFHHpS59qmQ0N/Cjj0o4o496oQcelHHpRx70ce9ABx6UcelHHvRx70AHHpXXeDrmQW11Cj/ADwyJcQrx97kNj6gAVyPHvW54U1ODS/EkUtyB5EgMUhP8IPQ/gQPwzXz3FeBljcqrUaavK116pp6eeh73DONjg8ypVZu0b2fo1bU6PxRpxWKXXLZhbG4miaeDpvAYYIHPOe47cV0fhtlaMH071n+K7aL/hGprk3KsmAy7cY6gin+GbhREFPrX85WtGx+7Sd5Jnolsu4DA6irqW+YzkHNZ9hLuZQ2fWt23AOMmlEGZpsTISMfnTv7MCxklf0rdS3AOQKbdGOJDkZUA1vrYzv2OKvkhSXBT5gcYpLODdMGZRk9KpS3U2oa3K0Kr5SsQD64rUsyWmRNvJrl5ddTq2QutKg09kIByOlcTZJGl6YpCAc456V2niJHs7LfIDgdeK4a7W4h8u7jiZ1STJHcilODbui4bHd2umq1uG2jPb3pJNJEmVkizjvitjw28N7pUVyp3I6BlK9K057YclBiuhX5TlvqctHpkdun3OPp0rJ1VPKVwFwpHU12FzCNh45x+VchrsgWMq35VlJFI8f8USf8VLYxxIZHeYKq4B5555Hbr+HHNaGsxS2Vi0assptrf7O7A5ALscqPwZqrORcfEizU48tBIzH+6NhXP5sKPFMT2SwwCTeszGU4Oee3869vh3BfW8zw9L+8m/Rav8EebnWN+qZbXq+TS9XovxZznajj0o+lLxX9Kn8+CcelHHpRx70ce9ABx6UcelHHvRx70AHHpTsim8e9LxSYBxRxSYo49aYC8UcUnHrRx60ALxRxScetHHrQAvHrRxScetHHrQA7cQu0McDkDtXd+G7khIpAwIYCuD49a6nw3NvtVBJDISuM578f0r8t8S8L+6oV0tnJP52a/Jn6LwBiP3lai3uk18rr9UeuabMGhG1ufeumsJPlGSfeuB0q6KRqCfr9K7CyuNwBBGK/IE7M/TnsdMsx8vAH41RvUeeCVVba2MDimLcbYwOgpjzjbu3fLXQpEWscRplzY6Osx1iUweSSG3Akt16Dvn2rUsNZ0+W7S6QMkb/MpljKEjPoQK1blre4ZFKK7Bs4wCT2qeL7PIghmtopIiM7WXOPzFEaVyp10ZfijxFZ3OllXkhJHTAArjn1DSL7w4zafdpcSiQxSIvUNngY+neu61ewsra33W1jbqW4bagG7jp+v8q5vT3htDiSKIPuJLADHX1qakGtyqNZW0Og8I282n+H7eCUAOM5Hpk5xXVlt0YYnBxXMWeoQzDKOCRxitX7XmHqCaOYh6sj1BgIz9OteceJbsBWXIwOv0rstWvGjgIOcn0ry/xPeYWQ7sYBrGTuzSOxxlnrFraeL726uLZpiItkeMfKSc8/lVLUL6XUb1rmbAOMKo/hHpVKL5jJK2Mu5PT8KfgetfvfBvD2HwWFp4xx/ezjq30T107aWufjHFWeV8XiKmEUv3UZaLu1pr31vYMc0vFJx60cetfbHyIvFHFJx60cetAC8UcUnHrRx60ALxRik49aXApMaHIuUfpwuf1FMx7ipE4SQeq/1FR49xTEGPcUY9xRj3FGPcUAGPcUY9xRj3FGPcUAGPcUY9xRj3FGPcUAGPcVraLem2udhPynoSelZOPcUY9Dz2rxOIsqWaYCphl8W8fVbfft8z1sjzJ5djIYjps/R7/5/I9Z0q6R/lJ5rr7CcAKu7Ga8c0LWXEihnKup5Br0bTNTjm2HcOvB9K/murTlTm4TVmtGfvlKcakVKLunqjsZrllh4zkDjmuW1LxNZWN4sN3qEEDNx+9bGP8ACt1JY5k2BufWsbV/C1hqdhNFcQJIz9yuCfx/GmmPlTeo2Pxz4VtbdfM1VLt+62/zE/j0FPHxK0WaX91a3CRDkEMgb8vy7155J4Lsra8KSwDzFACGWPJOBzyeO3Xr+gp1v8O9FlthIEth9owLiNnZOgPUY9fp1roUG1ozWFKn1O41fx9o/wBmYW4kmk27syyqu38BXLS/ELw8oKX4MLkn5kfcCfp1qC58F6esKXrR2kZSLYuHJbHTGQOegz/WsuHQm1Bli8hGbcCAo+VR9Me3epdLrI1cKajaOp2vhrXNN1a6MOnzztGoyHMbKAe/JHvXYxTTxIEZiRisnQNGt9G0dUjCLgZbitG4voYrU4wD0rGTsjl5bSuijrN5thYMeRxgV5P4wviqmNMb3OAPeuu17XIY0kYyD1FeW3U8mpakbyUnapIjH6Zr1uHsnqZrjYUI7byfZdf+B5nl53mkMtwkq0t9ku76f12GKoVAoPAGOaXHuKMe4ox7iv6WjFQioxWiPwGUnJuUt2GPcUY9xRj3FGPcVQgx7ijHuKMe4ox7igAx7ijHuKMe4ox7igAx7ijijHuKMGiwXFBIBHrxSYNGKKADBowaKKADBowaKKADBowaKKADBowaKKAHIZIpBNEGLL1UdxXRaRrZXZg7QecY/OprTw8B8OYvEbD5pdQay2kfw+WGBH4hwfoKwLuzawujIgIjJzx296/n3jaVGeb1fZq21/W2p+3cIxqxyun7R33t6X0PX9D1UTwhVcFh3rqLS6VkIPJBzXiOi6u1pOjCTKH06V6ro14txCkyvnPavkH7rPp07nQzWMN4gcxgt9KybjQXjlEkcEcm3OMk8DGP5cfSultyGRdmCO/tV0RwnLEhR0Oa2gr6kObRwg0COclpbYIM8DcT+lXoNKtrZdqwgHHYYrqpYoSOq8dutZd3KkEbO4XIHFKaa3Gp3MG6kkiUj+EfrXGeIddjtgRG/tirfifxAtlbySNIFPpmvHNX12a8uvLiy7sflXNZRXMW2P8AEeuy3bfZYHGT94+lThQAAoAA4AHaqOk6FJqOvWOnM+ZLy4jjZs5xuYDj862tVsW03Xb3TmOTbTvCT67WIz+lfrPhlOm3iEt/d+7X/M/NPEKE17Bvb3vv0KeDRg0UV+sH5oGDRg0UUAGDRg0UUAGDRg0UUAGDS4NJS/jQAnNLzSZo5oAOfejn3oooAOfejn3oooAOfejn3oooAOfeo7m4itLSS5nfZHGu5iak5rh/H2siOFdNjbhf3k2D+Q/r+VeTneaRyzCTxD32S7t7f5vyPRyrL5Y/Exorbr5LqfXPgPwxL4p/Zh02ylg+x3t0r3sHmDuZWaMn2aMrz6NmuDu9EuYJpLO/tXguISVaJuqn09CO/wCtfRPhzTbXQ/DmnaNYgra2NtHawAkk7I0CKMnk8KKXxL4TsPEliGdFiu0XEdwo5+h9Rn/H1r+esfGpi5yrSd5t3fmft+AnDCxVKKtFaLyPkq+0aa0dpLWPeAMlDxn6Vo+HPFi6dIsVwWCE9G6rXoeo+G7rT7uSx1GLyXXJG3GH7ZBxyDyK4vWfCySN5sIZDIckKOM4/wAef/115Cl9mZ69k9YnoGmeKbN4EaOdWVhkEHNacmqRzgeXJgfWvCjo+qac5+z3HloeSGYDHfpn/Gl/tHXow0UF4jyAfdLEfNxgdPf8vwqknsmTY9yfWo7ePaswJ9PSuY8QeLrS0tGaadFJ6LnmvLZb7xLcs0UewlerK5P4449RVVvDd9fylr+5lYjHT7vTJGaJebCMX0KWu6/d+Ib+RbVWaMNgdx6cmrmleGmt4POlXdK43FiM4H9K7Hw14QhtyhRGyvQFOT+n4f5Fek+Gfh8dYkFxdo0Wnqcl8ndJjqF/kW/Lmp96o+SBblGkuaZznwx8CyT+I08S3UZS0tGbyQQMSycjj2GT+OPQ1xfxNs/7L+LWpWUjoHuVW/jXIy0chI3Y7fOki/8AAc96+p1s4LW1jtrWJIbeJQqIgwABXzb+1TZzacnhXxfZCNJLa4lspmxhpQ6h0Unuo8uXj/aNfZ8L5o8lxCna8XpL07r0PjuIsD/a1Fx2ktY/8H1OA596OfeobS6jvbCK7hJ2SqGFTV++U6kakVODunqj8anCUJOElZoOfejn3ooqyQ596OfeiigA596OfeiigA596KKOaAFGc0ZNKvLfgf5UmTQAmTRk0uaM0AJk0ZNLmjJoATJpcmmSzxQQmWeRI0HVnOAK43XfGkexrXSWJzw1xjH/AHz/AI15Wa5zhcspudeWvRdX6L9dj0cvyvEY+fJRjp1fRGpr/iSOwJsrRg923DHqIh6n39q8y1O4e8e5lcszMDyeSeKeLkku7nLHPeoF2tweh4Nfi+c55XzWt7SrpFbR6L/g92fqeVZTRy6lyU9ZPd9X/wADyP1KtMi1iJ6la1oCGUc//Wrl/C+pxav4U03VIG3R3VtHOh9Qy7gf1ro4DhsjpXkHqEGs6HZ63Ytb3SYb+GROGU+o/wAK8h8Q+G7zSLz7PMisjA+VIc7W44we3069a9zXBWqmoafbalZPbXUaujDkNXPXw6qq/U6KGIdJ26HgEemxzKS0LJ8owFPc88Aeo4/+vUMugW0jmPfGuOgxg9+eR1rt9V8J3ui3ks8Cvc2pHysmdy/7wzj2rL4eXAIXOQ2WHA9PpXluEoO0j1YzU1eJyqaJDaqywAgHIwQDnPvn60lpZh5WEVoYlRym9kI3EAHIz1HNdesDXjraWsUkkpJACnA6dOn0Ndn4a8GR6ewvNQ2TXROQB0T/ABP+e1OnQlVehFSuqa13Mjwr4KZ4RNqUeyDOREQN0g/2uOnt/wDqrvHRY4liiUIijACjAA7AVb27VCqOO2BUMuFUmvVp0o01ZHlVasqjuzLumC/KPxr5m/a31GD/AIQXQ9LkciV9QN0g9kidD/6OFfSd0cuff8K+OP2stYFz430jRVbItLRpSPRpGwf0jWtDI8o8O+KZtLtkjlzNaBsMmeVz3X/CvR7a6gvbVLm1lWWJxkMteH2zkRuhBwRWxomvXejXRaCTdEfvxMflb/A+9fY8N8WVMuth8T71L8Y+ndeX3dj5fPOHIY29ahpU/B+vn5/eeu5NGTXPWXjXRroBZ5GtXPUSj5c/Uf1xW/FPFPEJYJUlQ9GRgQfxFfrGDzLC42PNh6il6PX7t0fnWKwOIwrtXg4+v+ew7JoyaXJozXacgmTRk0uaM0AJk0uTRmjJ9KAFT7x+h/lSZpUxu/A/ypjyRxRmSV1RR1ZjgCk2o6saTeiFz7Clz7CsC/8AF+k2YKxOblxxiP7v5/4VyOpeNdUuiUt2FtGe0f3vz6/livmcw4uy7B3ip88u0dfx2/E97BcNY3FWbjyx7y0/Dc9CvNTsdPTdd3McffaTkn8Otcpqfj6NFZNNt8noJJf6AVws91I7GSV2YnkknJNQgMx3sTntntXweY8cY7E3jh0qcfLV/f8A5Jep9fgeEsJQtKs+d/cvu/zZfvdW1DUpfNvbh5G7KTwv0HQVnlyepz6UpbIxnj3qu7gMR/I18fVqTqyc6jbb6vU+np0404qMFZLoifd2Ap+Tgc1ADls4xzipNxJAAP4Vmiz9BPgLrD6v8BvDlxIAGht/spUdhEzRD8wgP4161Ax9T+f+f8/SvBP2V5lufgjHAHLGC+mjx6ZCvj/x6veLfJweeO1WwNCI44Ofxp7kBSc8CogQOu7/AD/n/OK+Y/2ofjneeHd3w38KySw6lcQh9Rv1O028bDIij772GCW6BSMZLHYpOyuVCDk7I9w1zxFcMWtNDsI72b7rPK2I1/L736duaS18P6XdRKZrKJLsqNzCQ7R64UN+nFfmpZyyR4ZURT24yfzPNdBZXU8iA8n8f6VyTqx6xue5h8qc7WqW+X/BP0f0YeHReXEOkXtrc3ETYn8qUSNESM7TySvGOPxrc4C4UjH5V+cXh/xV4k8MXi3mg6xc6a6NuPkPhGP+0n3XHswIr64+DPx90P4lSf2BqKx6b4nhTL22f3V2ByWhJOe2Sh5HYsATV0K0Ze6lYwzHKquFSm3zJnsuBjJqndHgjt61cc5GBWfdHaP8/wCf8iuhnkGTc5Mhxxxzj/PNfn78etU/tT48a/IkolSGVbdSD02Iqkfnur9BrjEdpLcN0RCx/AZr8wPEWpNrPizU9XMXlm9upbkoP4S7liP1o6AZ6ttbI6H0o3kPj9aZuBGB9TTWPzH0qB3JmmPOeh4Ip9rqd9p04ktLuaLnqjEZ9jVNiORSYym0g1UJyhJSg7NdiZQjNcsldHb6d8RNRgwl/DFdr3YfI35jj9K67TvGehahhTcfZpD/AAzjaPz6frXjIJUbSeR+tPVyD6V9RgOMsywtlKXPHtLX8d/vufP4zhjA4jWMeR+X+W35H0Crq6B0ZWU8gg5Bpc+wrw/T9d1HTXzaXcsXPIByp+o6V2Gm/EVwBHqVqsnYyQ8H8uh/Svtsv47wVe0cTF0396+9a/gfK4zhDFUveoNTX3P/AC/E9Az7CjPtWZp/iLR9TCi2vEDn/lnJ8rZ9MHr+FanFfY4fFUcTDnozUl3TufMVsPVoS5KsXF+ascHqHj2UkpYQLEP77/Mf8P51y19rN7fPuubiSQ9tx6fQdqzGc+9NyS/6V+A47OMZj3fEVG122X3LQ/ZMHlmFwa/cwSffr9+5K0rEnLVGZFAznimNkd+9MK5BzxzXmneTJl/nPA7Cpc5GMdPest/OiJMLkY7HkUDUpk/18OfdKBGi3I9DVZ8g5P60Q6hbSkKsgVvRuKcwDyAhhQA5AAop460hIAyOg4xikB96APsj9jvU4pfCWv6R83mRXSXB9MOm3/2ma+mYh81fGP7IOtLa/ETVdFcf8ftj5inj70bZ/k7H8K+z4OVJPrVgV9d1M6VoFxeoA0yrthQ/xSHgcZGR3ODnANfKOq/BS/8AHer3r6leFJpWeSO9YZYSMc7mx1BPJHfJ719GeJ5J9T1yPRoGISDa8h5xuIPJ9cAj8zWpZ6VBawxxqvOQM9/vYqd9zSMnDVH5tatoOqeFvEF5oGuWr22oWchjljce2Qw9VIIII4III4NXdHkDlk5DDrX1f+0f8NV8UeB28VadCo1fQ4meU5VfOtBlnBJ67OXAyBgycEkCvkfSZEimPmnYvHztwB7Vw4mnyn1uS4pVWk/mT67ctBCY4zyflAHUmvYfg38LrnSNasdc1QTC7kjEoaI4a33cquRyr+uMEZI9c8x8JfC9l41+NkSXJjns7CJr54z8yylWVVHHH3mU4PBCkV9tWGi2tnaqkcSkFctx1OKvC09OZnFn2N5qzpx2Ro6Hqw1GzCzSZuEGGB6yD+8Kt3Ck8nn8Kwxbyaffi5hxwTxj16g1uiSOe1EkR+U/mD3FdjPmzhfivq3/AAj/AMD/ABPqQufs8i2EkcUmeVkcbEx77mFfmrKwLk5685r7u/au1p9M+AZ05UDf2nfw2zc/dVd0ufzjUfjXwfIM5x+NJ7AR7ecg9PWlYDqufz6UgJxgYprE4OfWpARuRzSLgketKcbSx4X3qs94u8pboZG9eij8aBlwqrR5Y7SO9RoQwwGB56g5qr9nlmYPcSFv9gcAfhVpU2gKOBQAuTj0FODY4pD65/OjGeaAJVnYHqc+taK61qaoFW9nAAwAHPFZJz0IxSZPqKuE5Q+F2JlGMviVyySPwpCem04701gPLHFA6fhSGPxyRk8UhAC5oP3TTZOFBFIYmMj0ppjG3PUVKeh/H+dMb7xHbmmIrvZwyPggcdTirSqscSpGMBeABTQTlB2qVP8AV/jSAbyT60qkb+Oc0nUc00ffFAHp/wACtcGg/HXw9dSSFYpLkWz88FZPk59ssD+FfoqsqwwvO4LLGpZwDknHYZr8tPD7uniWxdGKstxGQQcEHcK/UaUBtFfcM5MWc/hVLYCnpOm/Z4HuJgGubgtK7AY+983TtyTWq0QWeMd/MHX/AHjTk+8v+7/7LQ//AB9p/wBdf/ZqNh7nP+MNY0/wv4W1HxHqJItrGEyyKACZOcKgyQNzMVUAkAlhX5+G5tNQhuprWwgtIppHkWCLJWMbjhQWJOAOBkmvrb9qklfhPZgEgHU4sgd/3clfHemcae2OPmauLGS2R9Vw5T5W597r7j1n9mG9a0+KOr6WIbYQXOn+ezsMSb45VCqp9CJZCR/sr6V9mxgeUuM8r/Svg34HAH9o7RAQMBLogf8AbrLX3bCT9ji/3RW1B3geLmtNQxEki5PbqxztHPX/AL6/+tVC0kNq/luW8luCPQ+v1rTJOB9P6mqF0B5b8D7tbnno+T/2zNdWTxF4a8NRyyZt7aW+lQfccSOEQ/UeTJ/31718qt8wxnOPavev2q3d/jJZB3ZgulxKuTnA8yQ4H5mvBv4z9KTEQDJPTJoYc+1PAG4/U03tmkMjkiSaMo6hhmkjjCYXAzUvrTW6UAOC4XvRyADkk+tOIGRx2/xpR95aAGZ7E0oGfmPSnKBupq/e/D+lACYHTvRgev607uPxpm5v7x/OgR//2Q==" alt="Portrait of Kaspul Anuar" width="250" height="250">
+      <figcaption>Tokyo, Japan. Originally from Riau, Indonesia.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="block" id="research">
+  <div class="wrap">
+    <h2>Research</h2>
+    <p class="sub">Six threads run through my work. Pick one to see the papers behind it.</p>
+    <div class="themes">
+      <article class="theme-item">
+        <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h50l6-3-6-3H40L28 4h-5l5 12H12L8 10H4l2 8"/><path class="hl" d="M28 28 23 40h5l12-12"/></svg>
+        <div><h3>Fixed-wing UAVs</h3><p>Serindit V-1, Serindit V-2 and Atha Mapper 2150: wing and high-lift design, propeller matching, bungee launch and parachute recovery.</p><button data-jump="fixed">See papers</button></div>
+      </article>
+      <article class="theme-item">
+        <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M32 22 12 10M32 22l20-12M32 22v16"/><circle cx="32" cy="22" r="4"/><path class="hl" d="M4 10h16M44 10h16M24 38h16"/></svg>
+        <div><h3>VTOL and tricopter hybrids</h3><p>Fixed-wing VTOL layouts, tail-sitter concepts and a tricopter frame that turns a fixed-wing airframe into a vertical take-off platform.</p><button data-jump="vtol">See papers</button></div>
+      </article>
+      <article class="theme-item">
+        <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 24c-6-10-16-16-28-16 6 6 12 12 28 16Z"/><path d="M32 24c6-10 16-16 28-16-6 6-12 12-28 16Z"/><path class="hl" d="M32 24v14M27 34l5 4 5-4"/></svg>
+        <div><h3>Flapping-wing robots</h3><p>My doctoral research at Tokyo Metropolitan University: aerial robots that fly by flapping, the way birds and insects do.</p><button data-jump="flapping">See papers</button></div>
+      </article>
+      <article class="theme-item">
+        <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 24c10-10 30-12 48-4-18-2-36 0-48 4Z" fill="currentColor"/><path class="hl" d="M2 12c14-6 34-6 60 0M2 34c20 4 40 4 60-2"/></svg>
+        <div><h3>Aerodynamics and CFD</h3><p>Ansys Fluent simulations and bench tests that tell us how a design will fly before we risk the airframe.</p><button data-jump="aero">See papers</button></div>
+      </article>
+      <article class="theme-item">
+        <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 32c12-4 20-20 52-20M6 26c14-6 22-18 50-18M10 38c14-2 24-18 50-18"/><path class="hl" d="M20 38 28 28M34 30l6-10"/></svg>
+        <div><h3>Natural-fiber airframes</h3><p>Oil palm empty fruit bunch composites as a cheap, local material for UAV fuselages, plus earlier work on non-asbestos brake materials.</p><button data-jump="materials">See papers</button></div>
+      </article>
+      <article class="theme-item">
+        <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M32 4v8M32 32v8"/><path d="M24 12h16v20H24z"/><path class="hl" d="M10 8l6 4-6 4 6 4-6 4 6 4-6 4"/></svg>
+        <div><h3>Regenerative suspension</h3><p>My master’s work: a hydraulic-motor shock absorber that recovers energy from vehicle vibration, and how it changes ride response.</p><button data-jump="vehicle">See papers</button></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="publications">
+  <div class="wrap">
+    <h2>Publications</h2>
+    <div class="filters" id="filters" role="group" aria-label="Filter by topic"></div>
+    <div class="pubmeta">
+      <span id="pubCount" aria-live="polite"></span>
+      <div class="seg" role="group" aria-label="Filter by type" id="typeSeg">
+        <button type="button" data-type="all" aria-pressed="true">All</button>
+        <button type="button" data-type="j" aria-pressed="false">Journals</button>
+        <button type="button" data-type="c" aria-pressed="false">Conferences</button>
+      </div>
+    </div>
+    <div id="pubList"></div>
+    <div class="scholar-cta">
+      <p>For citation counts and the most up-to-date list, see my Google Scholar profile.</p>
+      <a class="btn" href="https://scholar.google.com/citations?hl=en&user=LOwSlPAAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Open Google Scholar</a>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="teaching">
+  <div class="wrap two">
+    <div>
+      <h2>Teaching</h2>
+      <p class="sub" style="margin-top:-1rem">Courses I taught at Universitas Riau, 2016–2024.</p>
+      <ul class="plain">
+        <li>Design of UAVs and drones</li>
+        <li>Control systems</li>
+        <li>Mechanics of materials</li>
+        <li>Kinematics and dynamics</li>
+        <li>Engineering mechanics: statics</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Student teams</h2>
+      <p class="sub" style="margin-top:-1rem">Faculty supervisor for UAV competition teams.</p>
+      <ul class="plain">
+        <li>Kontes Robot Terbang Indonesia (KRTI)<small>Indonesian national aerial robot competition, every year from 2017 to 2024</small></li>
+        <li>International UAV Competition, Türkiye<small>TÜBİTAK, 2023</small></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="cv">
+  <div class="wrap two">
+    <div>
+      <h2>Path so far</h2>
+      <ol class="timeline" reversed>
+        <li class="now">
+          <span class="when">April 2024 – present</span>
+          <h3>PhD, Mechanical Systems Engineering</h3>
+          <p class="org"><a href="https://www.tmu.ac.jp/english/education/graduate/sd.html" target="_blank" rel="noopener">Tokyo Metropolitan University</a>, Tokyo, Japan</p>
+          <p>Doctoral research on servo-driven flapping-wing robots: lift-enhancing wing devices, agile maneuvering and tail-assisted self-standing takeoff.</p>
+        </li>
+        <li>
+          <span class="when">March 2016 – March 2024</span>
+          <h3>Researcher and lecturer</h3>
+          <p class="org">Mechanical Engineering, Universitas Riau, Pekanbaru, Indonesia</p>
+          <p>Research on UAV design and development. Taught five courses and supervised competition teams.</p>
+        </li>
+        <li>
+          <span class="when">July 2012 – August 2014</span>
+          <h3>Master’s degree, Mechanical Engineering</h3>
+          <p class="org"><a href="https://www.its.ac.id/" target="_blank" rel="noopener">Institut Teknologi Sepuluh Nopember (ITS)</a>, Surabaya, Indonesia</p>
+          <p>GPA 3.79 out of 4.0. Thesis: design and vibration response of a suspension system with a hydraulic-motor regenerative shock absorber, advised by Prof. Dr. Eng. Harus Laksana Guntur.</p>
+        </li>
+      </ol>
+    </div>
+    <div>
+      <h2>Tools</h2>
+      <div class="skills">
+        <div><h3>CAD</h3><p>SolidWorks, Autodesk Inventor, AutoCAD</p></div>
+        <div><h3>Simulation</h3><p>Ansys Fluent, Ansys Structural, MATLAB Simulink</p></div>
+        <div><h3>Programming</h3><p>Python, C, C++, MATLAB</p></div>
+        <div><h3>Flight hardware</h3><p>Arduino, Raspberry Pi, ESP32</p></div>
+      </div>
+      <h2 style="margin-top:3rem">Languages</h2>
+      <p style="margin:0">Indonesian (native) and English, rated on the Common European Framework:</p>
+      <div class="cefr">
+        <div><b>C1</b><span>Reading</span></div>
+        <div><b>B2</b><span>Listening</span></div>
+        <div><b>B2</b><span>Writing</span></div>
+        <div><b>B1</b><span>Speaking</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block contact" id="contact">
+  <div class="wrap">
+    <h2>Let’s talk about aircraft.</h2>
+    <p class="narrow" style="color:var(--muted)">I’m open to research collaborations, student questions about UAV design, and conversations about flapping-wing flight.</p>
+    <a class="mail" href="mailto:kaspul.anuar@lecturer.unri.ac.id">kaspul.anuar@lecturer.unri.ac.id</a>
+    <ul class="profiles">
+      <li><a href="https://scholar.google.com/citations?hl=en&user=LOwSlPAAAAAJ" target="_blank" rel="noopener">Google Scholar</a></li>
+      <li><a href="https://www.scopus.com/authid/detail.uri?authorId=57209887380" target="_blank" rel="noopener">Scopus<small>57209887380</small></a></li>
+      <li><a href="https://orcid.org/0000-0002-6608-4214" target="_blank" rel="noopener">ORCID<small>0000-0002-6608-4214</small></a></li>
+      <li><a href="https://www.researchgate.net/profile/Kaspul-Anuar" target="_blank" rel="noopener">ResearchGate</a></li>
+      <li><a href="https://www.youtube.com/channel/UCgVgsH2Qi4rIRAHMh40tZag" target="_blank" rel="noopener">YouTube</a></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr">2026</span> Kaspul Anuar</span>
+    <a href="#top">Back to top</a>
+  </div>
+</footer>
+
+<script>
+/* ---------- theme ---------- */
+(function(){
+  var root=document.documentElement, KEY="ka-theme";
+  try{ var s=localStorage.getItem(KEY); if(s) root.setAttribute("data-theme",s); }catch(e){}
+  function current(){
+    var t=root.getAttribute("data-theme"); if(t) return t;
+    return window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark":"light";
+  }
+  document.getElementById("themeBtn").addEventListener("click",function(){
+    var n=current()==="dark"?"light":"dark"; root.setAttribute("data-theme",n);
+    try{ localStorage.setItem(KEY,n); }catch(e){}
+  });
+  document.getElementById("yr").textContent=new Date().getFullYear();
+})();
+
+/* ---------- flow lab: Joukowski airfoil in potential flow ---------- */
+(function(){
+  var svg=document.getElementById("flowSvg"), gS=document.getElementById("streams"), gF=document.getElementById("foil");
+  var slider=document.getElementById("aoa"), aoaOut=document.getElementById("aoaOut"), clOut=document.getElementById("clOut");
+  var reduce=window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var NS="http://www.w3.org/2000/svg";
+  var a=1, xc=-0.09, yc=0.09;                // circle centre: thickness and camber
+  var R=Math.hypot(a-xc, -yc), beta=Math.atan2(yc, a-xc);
+  var SC=118, CX=600, CY=215;                 // svg scale and centre
+  function toSvg(zx,zy,al){                    // rotate by -alpha (nose up), flip y
+    var c=Math.cos(al), s=Math.sin(al);
+    var x=zx*c+zy*s, y=-zx*s+zy*c;
+    return [CX+x*SC, CY-y*SC];
+  }
+  function jouk(px,py){                        // z = zeta + a^2/zeta
+    var d=px*px+py*py; return [px+a*a*px/d, py-a*a*py/d];
+  }
+  function draw(alDeg){
+    var al=alDeg*Math.PI/180, U=1, G=4*Math.PI*U*R*Math.sin(al+beta);
+    var ca=Math.cos(al), sa=Math.sin(al);
+    function psi(xp,yp){ var r2=xp*xp+yp*yp; return U*(yp-R*R*yp/r2)+G/(2*Math.PI)*0.5*Math.log(r2); }
+    var psS=G/(2*Math.PI)*Math.log(R), D=0.3, out=[];
+    var ks=[-0.45,0.45]; for(var kk=-12;kk<=12;kk++){ if(kk) ks.push(kk); }
+    var xs=[]; for(var i=0;i<=260;i++){ var t=-1+2*i/260; xs.push(7.5*Math.sign(t)*Math.pow(Math.abs(t),1.6)); }
+    ks.forEach(function(k){
+      var c=psS+k*D, d="", pen=false;
+      for(var j=0;j<xs.length;j++){
+        var xp=xs[j], lo, hi;
+        if(Math.abs(xp)<R){ var h=Math.sqrt(R*R-xp*xp)+1e-6; if(k>0){lo=h;hi=9;} else {lo=-9;hi=-h;} }
+        else { lo=-9; hi=9; }
+        var flo=psi(xp,lo)-c, fhi=psi(xp,hi)-c;
+        if(flo*fhi>0){ pen=false; continue; }
+        for(var it=0;it<46;it++){ var m=(lo+hi)/2, fm=psi(xp,m)-c; if(fm*flo<=0){hi=m;} else {lo=m; flo=fm;} }
+        var yp=(lo+hi)/2;
+        var zx=xp*ca-yp*sa+xc, zy=xp*sa+yp*ca+yc;   // back to zeta plane
+        var z=jouk(zx,zy), p=toSvg(z[0],z[1],al);
+        if(p[0]<-60||p[0]>1260){ pen=false; continue; }
+        d+=(pen?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1); pen=true;
+      }
+      out.push(d);
+    });
+    gS.textContent="";
+    out.forEach(function(d){ var p=document.createElementNS(NS,"path"); p.setAttribute("d",d); p.setAttribute("class","stream"+(reduce?"":" anim")); gS.appendChild(p); });
+    // airfoil
+    var f="", minx=1e9, maxx=-1e9;
+    for(var q=0;q<=240;q++){
+      var th=2*Math.PI*q/240, z2=jouk(xc+R*Math.cos(th), yc+R*Math.sin(th));
+      minx=Math.min(minx,z2[0]); maxx=Math.max(maxx,z2[0]);
+      var pt=toSvg(z2[0],z2[1],al); f+=(q?"L":"M")+pt[0].toFixed(1)+" "+pt[1].toFixed(1);
+    }
+    gF.textContent="";
+    var chord=maxx-minx, lez=jouk(xc-R, yc).slice(), tez=[2*a,0];
+    var dx=tez[0]-lez[0], dy=tez[1]-lez[1], L=Math.hypot(dx,dy); dx/=L; dy/=L;
+    var le=toSvg(lez[0]-0.35*dx,lez[1]-0.35*dy,al), te=toSvg(tez[0]+0.9*dx,tez[1]+0.9*dy,al);
+    var cl=document.createElementNS(NS,"line"); cl.setAttribute("class","chordline");
+    cl.setAttribute("x1",le[0]); cl.setAttribute("y1",le[1]); cl.setAttribute("x2",te[0]); cl.setAttribute("y2",te[1]);
+    var w=document.createElementNS(NS,"path"); w.setAttribute("d",f+"Z"); w.setAttribute("class","wing");
+    gF.appendChild(cl); gF.appendChild(w);
+    var CL=8*Math.PI*R*Math.sin(al+beta)/chord;
+    aoaOut.textContent=alDeg.toFixed(1)+"°"; clOut.textContent=CL.toFixed(2);
+  }
+  var pending=false;
+  slider.addEventListener("input",function(){ if(pending) return; pending=true; requestAnimationFrame(function(){ pending=false; draw(+slider.value); }); });
+  draw(+slider.value);
+})();
+
+/* ---------- publications ---------- */
+/* To add a paper, copy one object below. topics: fixed, vtol, flapping, aero, materials, vehicle. type: "j" journal or "c" conference. */
+var PUBS=[
+ {y:2026,t:"j",title:"Separate camber wing (SCW) device to enhance lift and payload on servo-driven flapping robot",au:"Anuar, K., Sato, H., Labiyb Afakh, M., Yunanto, B., Mochiyama, H., Wada, K., et al., & Takesue, N.",ve:"Advanced Robotics, 1–13",url:"https://www.tandfonline.com/doi/full/10.1080/01691864.2026.2700317",topics:["flapping","aero"]},
+ {y:2026,t:"j",title:"Agile maneuvering of servo-driven flapping robot: novel approach using center flapping angle and offset angle variables",au:"Anuar, K., Amemiya, A., Sato, H., Afakh, M. L., Yunanto, B., Mochiyama, H., et al., & Takesue, N.",ve:"IEEE/ASME Transactions on Mechatronics",url:"https://ieeexplore.ieee.org/document/11345303",topics:["flapping"]},
+ {y:2025,t:"c",title:"Servo-Driven Flapping Robot that Uses Its Tail for Self-Standing Takeoff",au:"Anuar, K., Amemiya, A., Sato, H., Afakh, M. L., Yunanto, B., Wada, K., et al., & Takesue, N.",ve:"2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), 13901–13906",url:"https://ieeexplore.ieee.org/document/11245812",topics:["flapping"]},
+ {y:2023,t:"j",title:"Design and Aerodynamic Analysis of Fixed-Wing Vertical Take-Off Landing (FW-VTOL) UAV",au:"Anuar, K., Fatra, W., Akbar, M., Nazaruddin, N., Syafri, S., Sari, A. W., & Utama, R. R.",ve:"Journal of Advanced Research in Fluid Mechanics and Thermal Sciences, 106(1), 136–146",url:"https://semarakilmu.com.my/journals/index.php/fluid_mechanics_thermal_sciences/article/view/2133",topics:["vtol","aero","fixed"]},
+ {y:2023,t:"c",title:"The design of bungee cord type launcher system for Serindit V-2 UAV",au:"Anuar, K., Akbar, M., Fatra, W., Priyofitrianto, A. B., Matua, T., & Aziz, H. A.",ve:"AIP Conference Proceedings, 2568(1), 020009. 2nd ICDEMM",url:"https://pubs.aip.org/aip/acp/article-abstract/2568/1/020009/2879723/The-design-of-bungee-cord-type-launcher-system-for",topics:["fixed"]},
+ {y:2022,t:"j",title:"Experimental Test on Aerodynamic Performance of Propeller and Its Effect on the Flight Performance of Serindit V-2 UAV",au:"Anuar, K., Akbar, M., Aziz, H. A., & Soegihin, A.",ve:"Journal of Advanced Research in Fluid Mechanics and Thermal Sciences, 91(2), 120–132",url:"https://semarakilmu.com.my/journals/index.php/fluid_mechanics_thermal_sciences/article/view/306",topics:["fixed","aero"]},
+ {y:2022,t:"j",title:"Aerodynamic Analysis of Unnamed Aerial Vehicle Serindit V-2 Using Computational Fluid Dynamics",au:"Asral, Anuar, K., & Soegihin, A.",ve:"Journal of Advanced Research in Fluid Mechanics and Thermal Sciences, 93(1), 83–93",url:"https://semarakilmu.com.my/journals/index.php/fluid_mechanics_thermal_sciences/article/view/431",topics:["fixed","aero"]},
+ {y:2022,t:"j",title:"Pemanfaatan Limbah Tandan Kosong Sawit (TKS) sebagai Material Alternatif dalam Pembuatan Badan Wahana Terbang Tipe Fixed Wing Atha Mapper 2150",gloss:"Oil palm empty fruit bunch waste as an alternative material for the Atha Mapper 2150 fixed-wing fuselage",au:"Anuar, K., Fatra, W., & Susilawati, A.",ve:"Jurnal Rekayasa Mesin, 13(2), 609–617",url:"https://rekayasamesin.ub.ac.id/index.php/rm/article/view/1161",topics:["materials","fixed"]},
+ {y:2022,t:"c",title:"Rancang Bangun Parasut Landing untuk Pesawat Tanpa Awak (UAV) Serindit V-2",gloss:"Design and build of a landing parachute for the Serindit V-2 UAV",au:"Anuar, K., Akbar, M., Fatra, W., Syafri, S., Nazaruddin, N., Sari, A., & Pamuncak, S.",ve:"Prosiding Seminar Nasional Tahunan Teknik Mesin (SNTTM) XX",url:"http://prosiding.bkstm.org/prosiding/2022/DAM-010.pdf",topics:["fixed"]},
+ {y:2022,t:"c",title:"Preliminary Design of Tail Sitter UAVs",au:"Anuar, K., Fatra, W., Asral, A., Nazaruddin, N., & Taslim, M.",ve:"3rd Conference on Innovation in Technology and Engineering Science (CITES 2022)",url:"",topics:["vtol"]},
+ {y:2020,t:"j",title:"Tricopter Vehicle Frame Structure Design Integrated as Platform of Fixed Wing Atha Mapper 2150",au:"Anuar, K., Fatra, W., & Akbar, M.",ve:"Journal of Ocean, Mechanical and Aerospace – Science and Engineering, 64(2), 68–72",url:"https://isomase.org/Journals/index.php/jomase/article/view/218",topics:["vtol","fixed"]},
+ {y:2019,t:"j",title:"The Application of Empty Palm Fruit Bunch (EPFB) as a Material for Fixed Wing Type Unmanned Aerial Vehicle Fuselage Production",au:"Teguh, M., Anuar, K., Taslim, M., & Saputra, R.",ve:"Journal of Ocean, Mechanical and Aerospace – Science and Engineering, 63(3), 13–16",url:"https://isomase.org/Journals/index.php/jomase/article/view/133",topics:["materials","fixed"]},
+ {y:2019,t:"j",title:"Desain Perangkat High Lift Device (HLD) guna Meningkatkan Koefisien Gaya Angkat pada Sayap Wahana Terbang UAV Serindit V-1",gloss:"High-lift device design to raise the lift coefficient of the Serindit V-1 wing",au:"Anuar, K., & Herisiswanto",ve:"Multitek Indonesia: Jurnal Ilmiah, 13, 9–15",url:"http://journal.umpo.ac.id/index.php/multitek/article/view/1736",topics:["fixed","aero"]},
+ {y:2019,t:"c",title:"Wing design of UAV Serindit V-1",au:"Anuar, K., & Akbar, M.",ve:"IOP Conference Series: Materials Science and Engineering, 539(1), 012002. ICDEMM",url:"https://iopscience.iop.org/article/10.1088/1757-899X/539/1/012002/meta",topics:["fixed","aero"]},
+ {y:2017,t:"j",title:"Characteristics of Dynamic Response of Suspension Hydraulic Motor – Regenerative Shock Absorber (HMRSA)",au:"Anuar, K., & Guntur, H.",ve:"Journal of Ocean, Mechanical and Aerospace – Science and Engineering, 44(1), 1–7",url:"https://isomase.org/Journals/index.php/jomase/article/view/181",topics:["vehicle"]},
+ {y:2017,t:"c",title:"Pengaruh Waktu Mixing terhadap Kekerasan dan Keausan pada Campuran Serbuk Soda Lime Glass dan Serbuk Piston Bekas sebagai Material Alternatif Kampas Rem Non Asbestos",gloss:"Effect of mixing time on hardness and wear of soda-lime glass and recycled piston powder as a non-asbestos brake pad material",au:"Nawangsari, P., & Anuar, K.",ve:"Seminar Nasional Rekayasa Teknologi Industri dan Informasi (ReTII)",url:"https://journal.itny.ac.id/index.php/ReTII/article/view/478",topics:["materials"]},
+ {y:2011,t:"c",title:"Studi Numerik Karakteristik Respon Dinamik dari Model Hydraulic Motor – Regenerative Shock Absorber",gloss:"Numerical study of the dynamic response of a hydraulic-motor regenerative shock absorber model",au:"Anuar, K., & Guntur, H. L.",ve:"Seminar Nasional Pascasarjana XIV, ITS, 473–479",url:"https://repository.its.ac.id/97/",topics:["vehicle"]}
+];
+var TOPICS={fixed:"Fixed-wing",vtol:"VTOL & tricopter",flapping:"Flapping-wing",aero:"Aerodynamics & CFD",materials:"Materials",vehicle:"Vehicle dynamics"};
+(function(){
+  var state={topic:"all",type:"all"};
+  var fWrap=document.getElementById("filters"), list=document.getElementById("pubList"), count=document.getElementById("pubCount");
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function bold(au){return esc(au).replace(/(Anuar, K\.|Kaspul Anuar|Anuar, Kaspul)/g,"<strong>$1</strong>");}
+  function chips(){
+    var html='<button type="button" class="chip" data-topic="all" aria-pressed="'+(state.topic==="all")+'">All<span class="n">'+PUBS.length+'</span></button>';
+    Object.keys(TOPICS).forEach(function(k){
+      var n=PUBS.filter(function(p){return p.topics.indexOf(k)>-1;}).length;
+      if(!n) return;
+      html+='<button type="button" class="chip" data-topic="'+k+'" aria-pressed="'+(state.topic===k)+'">'+TOPICS[k]+'<span class="n">'+n+'</span></button>';
+    });
+    fWrap.innerHTML=html;
+  }
+  function render(){
+    var rows=PUBS.filter(function(p){return (state.topic==="all"||p.topics.indexOf(state.topic)>-1)&&(state.type==="all"||p.t===state.type);})
+                 .sort(function(a,b){return b.y-a.y;});
+    count.textContent="Showing "+rows.length+" of "+PUBS.length+" papers";
+    if(!rows.length){
+      list.innerHTML='<div class="year-group"><div></div><p style="margin:0;color:var(--muted)">'+(state.topic==="flapping"?"My flapping-wing papers are listed on Google Scholar, linked below.":"Nothing matches this filter. Choose All to see every paper.")+'</p></div>';
+      return;
+    }
+    var html="", yrs=[];
+    rows.forEach(function(p){ if(yrs.indexOf(p.y)<0) yrs.push(p.y); });
+    yrs.forEach(function(y){
+      html+='<div class="year-group"><div class="year">'+y+'</div><div>';
+      rows.filter(function(p){return p.y===y;}).forEach(function(p){
+        var title=p.url?'<a href="'+esc(p.url)+'" target="_blank" rel="noopener">'+esc(p.title)+'</a>':esc(p.title);
+        html+='<article class="pub"><h3>'+title+'</h3>'+(p.gloss?'<p class="gloss">'+esc(p.gloss)+'</p>':'')+
+              '<p class="au">'+bold(p.au)+'</p><p class="ve"><span class="kind '+p.t+'">'+(p.t==="j"?"Journal":"Conference")+'</span>'+esc(p.ve)+'</p></article>';
+      });
+      html+='</div></div>';
+    });
+    list.innerHTML=html;
+  }
+  fWrap.addEventListener("click",function(e){ var b=e.target.closest(".chip"); if(!b) return; state.topic=b.dataset.topic; chips(); render(); });
+  document.getElementById("typeSeg").addEventListener("click",function(e){
+    var b=e.target.closest("button"); if(!b) return; state.type=b.dataset.type;
+    this.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));}); render();
+  });
+  document.querySelectorAll("[data-jump]").forEach(function(b){
+    b.addEventListener("click",function(){ state.topic=b.dataset.jump; chips(); render();
+      document.getElementById("publications").scrollIntoView(); });
+  });
+  chips(); render();
+})();
+
+/* ---------- active nav link ---------- */
+(function(){
+  if(!("IntersectionObserver" in window)) return;
+  var links={}; document.querySelectorAll(".menu a").forEach(function(a){links[a.getAttribute("href").slice(1)]=a;});
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ Object.values(links).forEach(function(l){l.classList.remove("on");}); if(links[e.target.id]) links[e.target.id].classList.add("on"); } }); },{rootMargin:"-45% 0px -50% 0px"});
+  Object.keys(links).forEach(function(id){ var s=document.getElementById(id); if(s) io.observe(s); });
+})();
+</script>
+</body>
+</html>
